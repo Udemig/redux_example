@@ -1,14 +1,21 @@
 //import liraries
 import {ArrowRight} from 'iconsax-react-native';
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import Colors from '../../theme/colors';
 import GenderIcon from './genderIcon';
+import {useNavigation} from '@react-navigation/native';
+import {CHAARACTERDETAIL} from '../../utils/routes';
 
 // create a component
 const CharacterCard = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate(CHAARACTERDETAIL, {characterID: item.id})
+      }
+      style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -33,7 +40,7 @@ const CharacterCard = ({item}) => {
       <View style={styles.iconContainer}>
         <ArrowRight size={20} color={Colors.BLACK} />
       </View>
-    </View>
+    </Pressable>
   );
 };
 

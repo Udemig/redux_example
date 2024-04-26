@@ -4,4 +4,10 @@ const genderTypes = {
   UNNKNOWN: 'unknown',
 };
 
-export {genderTypes};
+const statusTypes = {
+  ALIVE: "Alive",
+  DEAD: "Dead",
+  UNNKNOWN: 'unknown',
+}
+
+export { genderTypes, statusTypes };

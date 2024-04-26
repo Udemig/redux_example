@@ -3,7 +3,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TabNavigator from './tabRouter';
-import {TABNAVIGATOR} from '../utils/routes';
+import {CHAARACTERDETAIL, TABNAVIGATOR} from '../utils/routes';
+import CharacterDetail from '../screens/characters/characterDetaail';
+import Colors from '../theme/colors';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,9 +13,19 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerStyle: {
+          backgroundColor: Colors.BACKGROUNDCOLOR,
+        },
+        headerBackTitle: 'Back',
       }}>
-      <Stack.Screen name={TABNAVIGATOR} component={TabNavigator} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={TABNAVIGATOR}
+        component={TabNavigator}
+      />
+      <Stack.Screen name={CHAARACTERDETAIL} component={CharacterDetail} />
     </Stack.Navigator>
   );
 }

@@ -1,0 +1,100 @@
+//import liraries
+import React, {useEffect} from 'react';
+import {View, Text, Image, ScrollView} from 'react-native';
+import {screensStyle} from '../../styles/screensStyle';
+import {useDispatch, useSelector} from 'react-redux';
+import {getSingleCharacter} from '../../store/actions/charactersActions';
+import Spinner from '../../components/uı/spinner';
+import {characterDetailStyle} from '../../styles/charactersStyle';
+import {statusTypes} from '../../utils/constans';
+
+// create a component
+const CharacterDetail = ({route}) => {
+  const {characterID} = route?.params;
+  const {pendingSingleCharacter, singleCharacter} = useSelector(
+    state => state.characters,
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSingleCharacter(characterID));
+    return () => {
+      console.log(characterID);
+    };
+  }, []);
+
+  return (
+    <View style={screensStyle.container}>
+      {pendingSingleCharacter ? (
+        <Spinner />
+      ) : (
+        <ScrollView>
+          <View style={characterDetailStyle.imageContainer}>
+            <Image
+              style={[
+                characterDetailStyle.image,
+                singleCharacter.status == statusTypes.ALIVE
+                  ? characterDetailStyle.statusAliveContainer
+                  : characterDetailStyle.statusDeadContainer,
+              ]}
+              source={{
+                uri: singleCharacter.image,
+              }}
+            />
+            <View
+              style={
+                singleCharacter.status == statusTypes.ALIVE
+                  ? characterDetailStyle.aliveStatusContainer
+                  : characterDetailStyle.deadStatusContainer
+              }>
+              <Text style={characterDetailStyle.status}>
+                {singleCharacter.status}
+              </Text>
+            </View>
+          </View>
+          <View style={characterDetailStyle.nameContainer}>
+            <Text style={characterDetailStyle.name}>
+              {singleCharacter.name}
+            </Text>
+          </View>
+          <View style={characterDetailStyle.sectionContainer}>
+            <Text style={characterDetailStyle.sectionTitle}>PROPERTIES</Text>
+            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
+              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+                <Text>Gender</Text>
+              </View>
+              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+                <Text>{singleCharacter.gender}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
+              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+                <Text>Species</Text>
+              </View>
+              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+                <Text>{singleCharacter.species}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
+              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+                <Text>Status</Text>
+              </View>
+              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+                <Text>{singleCharacter.status}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={characterDetailStyle.sectionContainer}>
+            <Text style={characterDetailStyle.sectionTitle}>WHEREABOUTS</Text>
+          </View>
+          <View style={characterDetailStyle.sectionContainer}>
+            <Text style={characterDetailStyle.sectionTitle}>
+              FEAATURE CHAPTERS
+            </Text>
+          </View>
+        </ScrollView>
+      )}
+    </View>
+  );
+};
+
+export default CharacterDetail;
