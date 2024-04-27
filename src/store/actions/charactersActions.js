@@ -7,15 +7,31 @@ import {
   FETCH_SINGLECHARACTER,
   PENDING_SINGLECHARACTER,
   SINGLECHARACTER_REJECT,
+  RESET_DATA,
+  CHANGE_PARAMS,
+  LOAD_MORE_DATA,
 } from '../types/characterTypes';
 
 export const getCharacterList = params => {
   return async dispatch => {
     dispatch({type: PENDING_CHARACTERS});
     try {
-      const response = await getRequest(CHARACTERS_URL);
+      const response = await getRequest(CHARACTERS_URL, params);
       dispatch({
         type: FETCH_CHARACTERS,
+        payload: response.data.results,
+      });
+    } catch (error) {
+      dispatch({type: CHARACTERS_REJECT, error: error});
+    }
+  };
+};
+export const loadMoreCharacters = params => {
+  return async dispatch => {
+    try {
+      const response = await getRequest(CHARACTERS_URL, params);
+      dispatch({
+        type: LOAD_MORE_DATA,
         payload: response.data.results,
       });
     } catch (error) {
@@ -36,5 +52,15 @@ export const getSingleCharacter = characterID => {
     } catch (error) {
       dispatch({type: SINGLECHARACTER_REJECT, error: error});
     }
+  };
+};
+export const resetData = () => {
+  return async dispatch => {
+    dispatch({type: RESET_DATA});
+  };
+};
+export const changeParams = params => {
+  return async dispatch => {
+    dispatch({type: CHANGE_PARAMS, params: params});
   };
 };

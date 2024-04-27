@@ -5,15 +5,24 @@ import {
   FETCH_SINGLECHARACTER,
   PENDING_SINGLECHARACTER,
   SINGLECHARACTER_REJECT,
+  RESET_DATA,
+  CHANGE_PARAMS,
+  LOAD_MORE_DATA,
 } from '../types/characterTypes';
 
 const initialState = {
   characterList: [],
   singleCharacter: {},
   pending: false,
-  pendingSingleCharacter: false,
+  pendingSingleCharacter: true,
   error: null,
   errorSingleCharacter: null,
+  params: {
+    page: 1,
+    status: null,
+    gender: null,
+    name: null
+  },
 };
 
 const characterReducer = (state = initialState, action) => {
@@ -23,6 +32,11 @@ const characterReducer = (state = initialState, action) => {
         ...state,
         characterList: action.payload,
         pending: false,
+      };
+    case LOAD_MORE_DATA:
+      return {
+        ...state,
+        characterList: [...state.characterList, ...action.payload],
       };
     case PENDING_CHARACTERS:
       return {
@@ -51,6 +65,21 @@ const characterReducer = (state = initialState, action) => {
         ...state,
         pendingSingleCharacter: false,
         errorSingleCharacter: action.error,
+      };
+    case RESET_DATA:
+      return {
+        ...state,
+        pendingSingleCharacter: false,
+        errorSingleCharacter: null,
+        singleCharacter: {},
+      };
+    case CHANGE_PARAMS:
+      return {
+        ...state,
+        params: {
+          ...state.params,
+          ...action.params
+        },
       };
     default:
       return state;

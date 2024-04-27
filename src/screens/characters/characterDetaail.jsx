@@ -3,7 +3,10 @@ import React, {useEffect} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import {screensStyle} from '../../styles/screensStyle';
 import {useDispatch, useSelector} from 'react-redux';
-import {getSingleCharacter} from '../../store/actions/charactersActions';
+import {
+  getSingleCharacter,
+  resetData,
+} from '../../store/actions/charactersActions';
 import Spinner from '../../components/uı/spinner';
 import {characterDetailStyle} from '../../styles/charactersStyle';
 import {statusTypes} from '../../utils/constans';
@@ -18,7 +21,7 @@ const CharacterDetail = ({route}) => {
   useEffect(() => {
     dispatch(getSingleCharacter(characterID));
     return () => {
-      console.log(characterID);
+      dispatch(resetData());
     };
   }, []);
 
@@ -58,27 +61,27 @@ const CharacterDetail = ({route}) => {
           </View>
           <View style={characterDetailStyle.sectionContainer}>
             <Text style={characterDetailStyle.sectionTitle}>PROPERTIES</Text>
-            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
-              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+            <View style={characterDetailStyle.rowContainer}>
+              <View style={characterDetailStyle.infoContainer}>
                 <Text>Gender</Text>
               </View>
-              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+              <View style={characterDetailStyle.infoBox}>
                 <Text>{singleCharacter.gender}</Text>
               </View>
             </View>
-            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
-              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+            <View style={characterDetailStyle.rowContainer}>
+              <View style={characterDetailStyle.infoContainer}>
                 <Text>Species</Text>
               </View>
-              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+              <View style={characterDetailStyle.infoBox}>
                 <Text>{singleCharacter.species}</Text>
               </View>
             </View>
-            <View style={{flexDirection:"row",justifyContent:"center",marginVertical:5}}>
-              <View style={{backgroundColor:"#e5ded1",padding:10,flex:1}}>
+            <View style={characterDetailStyle.rowContainer}>
+              <View style={characterDetailStyle.infoContainer}>
                 <Text>Status</Text>
               </View>
-              <View style={{backgroundColor:"#e5ded1",padding:10,marginLeft:5,justifyContent:"center",alignItems:"center",flex:2}}>
+              <View style={characterDetailStyle.infoBox}>
                 <Text>{singleCharacter.status}</Text>
               </View>
             </View>
@@ -86,10 +89,34 @@ const CharacterDetail = ({route}) => {
           <View style={characterDetailStyle.sectionContainer}>
             <Text style={characterDetailStyle.sectionTitle}>WHEREABOUTS</Text>
           </View>
+          <View style={characterDetailStyle.rowContainer}>
+            <View style={characterDetailStyle.infoContainer}>
+              <Text>Origin</Text>
+            </View>
+            <View style={characterDetailStyle.infoBox}>
+              <Text>{singleCharacter?.origin?.name}</Text>
+            </View>
+          </View>
+          <View style={characterDetailStyle.rowContainer}>
+            <View style={characterDetailStyle.infoContainer}>
+              <Text>Location</Text>
+            </View>
+            <View style={characterDetailStyle.infoBox}>
+              <Text>{singleCharacter?.location?.name}</Text>
+            </View>
+          </View>
           <View style={characterDetailStyle.sectionContainer}>
             <Text style={characterDetailStyle.sectionTitle}>
               FEAATURE CHAPTERS
             </Text>
+          </View>
+          <View style={characterDetailStyle.rowContainer}>
+            <View style={characterDetailStyle.infoContainer}>
+              <Text>Created</Text>
+            </View>
+            <View style={characterDetailStyle.infoBox}>
+              <Text>{singleCharacter.created}</Text>
+            </View>
           </View>
         </ScrollView>
       )}
